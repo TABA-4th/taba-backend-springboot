@@ -22,7 +22,7 @@ import java.time.Instant;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class MemberService {
 
     public static final String AUTO_LOGIN_NAME = "auto-login";
 
