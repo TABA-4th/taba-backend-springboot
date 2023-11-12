@@ -38,7 +38,7 @@ public class SignupService {
 //        Optional<User> inactiveUser = userRepository.findByInactiveByNickname(dto.getNickname());
         //TODO 회원탈퇴 로직이 필요할 시 구현
 
-        Member user = Member.builder()
+        Member member = Member.builder()
                 .name(dto.getName())
                 .nickname(dto.getNickname())
                 .password(encryptedPassword)
@@ -46,7 +46,7 @@ public class SignupService {
                 .memberRole(MemberRole.MEMBER)
                 .status(MemberStatus.ACTIVE)
                 .build();
-        memberRepository.save(user);
+        memberRepository.save(member);
 
         deleteSignupAuths(signupToken);
     }
@@ -57,22 +57,22 @@ public class SignupService {
     }
 
     private void checkAlreadyName(String name) {
-        Optional<Member> alreadyUser = memberRepository.findByName(name);
-        if (alreadyUser.isPresent()){
+        Optional<Member> alreadyMember = memberRepository.findByName(name);
+        if (alreadyMember.isPresent()){
             throw new AlreadyNameException();
         }
     }
 
     private void checkAlreadyNickname(String nickname) {
-        Optional<Member> alreadyUser = memberRepository.findByNickname(nickname);
-        if (alreadyUser.isPresent()) {
+        Optional<Member> alreadyMember = memberRepository.findByNickname(nickname);
+        if (alreadyMember.isPresent()) {
             throw new AlreadyNicknameException();
         }
     }
 
     private void deleteSignupAuths(String signupToken) {
         if (!smsVerificationService.deleteSMSAuth(signupToken)) {
-            log.error("Can't delete user signup authentication: sms auth");
+            log.error("Can't delete member signup authentication: sms auth");
         }
     }
 }
