@@ -34,6 +34,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.redisson:redisson-spring-boot-starter:3.16.3'
 
+	// http
+	implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
 	// db
 	implementation files('libs/tibero6-jdbc.jar')
 
