@@ -92,6 +92,7 @@ jobs:
         host: ${{ secrets.TABA_SPRINGBOOT_SERVER_HOST }}
         username: ubuntu
         key: ${{ secrets.TABA4_PRIVATE_PEM_KEY }}
+        port: ${{ secrets.TABA_SPRINGBOOT_SERVER_PORT }}
         envs: GITHUB_SHA,USERNAME,REPO
         script: |
           docker pull $USERNAME/$REPO:${GITHUB_SHA::7}
