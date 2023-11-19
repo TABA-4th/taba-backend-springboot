@@ -26,7 +26,12 @@ public class ScalpCareProduct extends BaseEntity {
     private Integer price;
 
     @NotNull
-    private String link;
+    @Lob
+    private String imageUrl;
+
+    @NotNull
+    @Lob
+    private String purchaseUrl;
 
     @OneToOne(mappedBy = "scalpCareProduct", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
