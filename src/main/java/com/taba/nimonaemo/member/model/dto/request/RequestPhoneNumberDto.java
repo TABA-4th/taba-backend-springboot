@@ -11,13 +11,13 @@ public class RequestPhoneNumberDto {
 
     @NotBlank
     @Pattern(regexp = "01[0-1|6-9]-?\\d{4}-?\\d{4}")
-    @Schema(description = "휴대폰 번호", example = "010-1111-2222")
-    private String phoneNumber;
+    @Schema(description = "휴대폰 번호", example = "01011112222")
+    private String phone;
 
     public RequestPhoneNumberDto() {
     }
 
-    public RequestPhoneNumberDto(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public RequestPhoneNumberDto(String phone) {
+        this.phone = phone;
     }
 }

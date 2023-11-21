@@ -83,7 +83,7 @@ public class SMSVerificationService {
         checkAlreadyPhone(phoneNumber);
 
         String code = CodeGenerator.generateDigitCode(digitCount);
-        phoneNumber = phoneNumber.trim().replaceAll("-", "");
+//        phoneNumber = phoneNumber.trim().replaceAll("-", "");
 
         Instant now = Instant.now(clock);
         smsAuthRepository.setAuthPayload(signupToken, SMS_AUTH_NAME, new SMSAuth(phoneNumber, code), now);

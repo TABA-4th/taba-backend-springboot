@@ -20,6 +20,7 @@ public class ScalpCareProduct extends BaseEntity {
     private Long id;
 
     @NotNull
+    @Column(length = 512)
     private String name;
 
     @NotNull
