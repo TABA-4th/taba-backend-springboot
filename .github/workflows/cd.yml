@@ -98,5 +98,6 @@ jobs:
         envs: GITHUB_SHA,USERNAME,REPO,VOLUME
         script: |
           docker pull $USERNAME/$REPO:${GITHUB_SHA::7}
-          docker stop $USERNAME/$REPO:${GITHUB_SHA::7}
-          docker run -it -d --rm -p 8081:8080 -v $VOLUME -e SPRING_CONFIG_LOCATION=/app/application.yml $USERNAME/$REPO:${GITHUB_SHA::7}
+          docker stop server
+          docker tag $USERNAME/$REPO:${GITHUB_SHA::7} server
+          docker run -it -d --rm -p 8081:8080 -v $VOLUME -e SPRING_CONFIG_LOCATION=/app/application.yml server
