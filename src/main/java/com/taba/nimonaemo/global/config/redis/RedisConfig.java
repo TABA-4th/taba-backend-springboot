@@ -51,7 +51,7 @@ public class RedisConfig {
             configuration.setPassword(RedisPassword.of(password));
         }
 
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(rp.getHost(), rp.getPort());
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(configuration);
         lettuceConnectionFactory.afterPropertiesSet();
         return lettuceConnectionFactory;
     }
