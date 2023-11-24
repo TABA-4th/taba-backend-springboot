@@ -2,6 +2,7 @@ package com.taba.nimonaemo.product.model.entity;
 
 import com.taba.nimonaemo.global.base.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +36,16 @@ public class ScalpCareProduct extends BaseEntity {
     private String purchaseUrl;
 
     @OneToOne(mappedBy = "scalpCareProduct", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
     private ProductProperty productProperty;
+
+    @Builder
+    private ScalpCareProduct(@NotNull String name,
+                             @NotNull Integer price,
+                             @NotNull String imageUrl,
+                             @NotNull String purchaseUrl) {
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+        this.purchaseUrl = purchaseUrl;
+    }
 }
