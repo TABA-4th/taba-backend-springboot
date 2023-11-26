@@ -3,10 +3,12 @@ package com.taba.nimonaemo.product.service;
 import com.taba.nimonaemo.member.exception.AlreadyNameException;
 import com.taba.nimonaemo.product.exception.ProductNotFoundException;
 import com.taba.nimonaemo.product.model.dto.request.RequestInputCareDeviceDto;
+import com.taba.nimonaemo.product.model.dto.request.RequestProductDto;
 import com.taba.nimonaemo.product.model.dto.response.ResponseProductDto;
 import com.taba.nimonaemo.product.model.entity.ProductProperty;
 import com.taba.nimonaemo.product.model.entity.ScalpCareProduct;
 import com.taba.nimonaemo.product.repository.ProductPropertyRepository;
+import com.taba.nimonaemo.product.repository.ProductRepository;
 import com.taba.nimonaemo.product.repository.ScalpCareProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,6 +25,26 @@ public class ScalpCareProductService {
     private final ProductPropertyRepository productPropertyRepository;
 
     private final ScalpCareProductRepository scalpCareProductRepository;
+
+    private final ProductRepository productRepository;
+
+    public List<ResponseProductDto> findShampoo(RequestProductDto requestDto) {
+        List<ScalpCareProduct> scalpCareProductList = productRepository.findAllByShampooType(requestDto);
+        System.out.println("샴푸 리포지토리 확인 "+scalpCareProductList.size());
+        List<ResponseProductDto> result = new ArrayList<>();
+        if (!scalpCareProductList.isEmpty()) {
+            for(int i = 0; i < scalpCareProductList.size(); i++) {
+                ResponseProductDto responseDto = ResponseProductDto.builder()
+                        .scalpCareProduct(scalpCareProductList.get(i))
+                        .build();
+                result.add(responseDto);
+            }
+            return result;
+        }
+        else {
+            throw new ProductNotFoundException();
+        }
+    }
 
     public List<ResponseProductDto> findCareDevice() {
         List<ScalpCareProduct> scalpCareProductList = productPropertyRepository.findByCareDevice();
