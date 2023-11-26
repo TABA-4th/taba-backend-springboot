@@ -1,5 +1,6 @@
 package com.taba.nimonaemo.member.model.entity;
 
+import com.taba.nimonaemo.diagnosis.model.entity.DiagnosisResult;
 import com.taba.nimonaemo.global.auth.role.MemberRole;
 import com.taba.nimonaemo.global.base.BaseEntity;
 import com.taba.nimonaemo.member.model.MemberStatus;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
@@ -40,6 +43,9 @@ public class Member extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
+
+    @OneToMany(mappedBy = "member")
+    private List<DiagnosisResult> diagnosisResults = new ArrayList<>();
 
     @Builder
     private Member(@NotNull String name,
