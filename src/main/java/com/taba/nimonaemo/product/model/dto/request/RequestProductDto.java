@@ -4,33 +4,33 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @RequiredArgsConstructor
 public class RequestProductDto {
 
-    @NotBlank
+    @NotNull
     @Schema(description = "건성", example = "1")
     private final Boolean dry;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "지성", example = "0")
     private final Boolean greasy;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "민감성", example = "0")
     private final Boolean sensitive;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "피부염성", example = "0")
     private final Boolean dermatitis;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "중성", example = "0")
     private final Boolean neutral;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "탈모성", example = "0")
     private final Boolean loss;
 }
