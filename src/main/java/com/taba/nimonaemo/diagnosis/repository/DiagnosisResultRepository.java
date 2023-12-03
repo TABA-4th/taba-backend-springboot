@@ -11,4 +11,10 @@ public interface DiagnosisResultRepository extends JpaRepository<DiagnosisResult
             "where d.member.id = :memberId and " +
             "(d.diagnosisDate between TO_DATE(:curDate, 'YYYY/MM') and TO_DATE(:nextDate, 'YYYY/MM'))")
     List<DiagnosisResult> findByDate(Long memberId, String curDate, String nextDate);
+
+
+    @Query("select COUNT(*) from DiagnosisResult d " +
+            "where d.member.id = (select m.id from Member m " +
+                                "where m.nickname = :nickname) ")
+    Long findAllWithNickname(String nickname);
 }
