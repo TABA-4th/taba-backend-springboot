@@ -92,7 +92,10 @@ public class ProductRepository {
         jpql += ")";
 
         if (isFirstCondition) {
-            throw new ProductNotFoundException();
+            // 모두 false이면, 모든 샴푸 보여주기로 변경
+            jpql = "select s from ScalpCareProduct s " +
+                    "where s.id in (select p.scalpCareProduct.id from ProductProperty p " +
+                    "where p.careDevice = 0)";
         }
 
         TypedQuery<ScalpCareProduct> query = em.createQuery(jpql, ScalpCareProduct.class);
