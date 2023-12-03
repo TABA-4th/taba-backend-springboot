@@ -1,14 +1,14 @@
 package com.taba.nimonaemo.diagnosis.controller;
 
 import com.taba.nimonaemo.diagnosis.model.dto.request.RequestMemberDTO;
+import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisCountDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisResultDTO;
 import com.taba.nimonaemo.diagnosis.service.DiagnosisResultService;
+import com.taba.nimonaemo.global.auth.jwt.AppAuthentication;
+import com.taba.nimonaemo.global.auth.role.MemberAuth;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -29,5 +29,16 @@ public class DiagnosisResultController {
     @PostMapping("/result")
     public List<ResponseDiagnosisResultDTO> result(@Valid @RequestBody RequestMemberDTO dto) {
         return diagnosisResultService.findDiagnosisResult(dto);
+    }
+
+    /**
+     * 멤버 별 두피 진단 총 검사 건수
+     *
+     * @param nickname      멤버 닉네임
+     * @return              멤버 별 두피 진단 총 검사 건수
+     */
+    @PostMapping("/count")
+    public ResponseDiagnosisCountDTO count(@Valid @RequestParam String nickname) {
+        return diagnosisResultService.findDiagnosisCount(nickname);
     }
 }

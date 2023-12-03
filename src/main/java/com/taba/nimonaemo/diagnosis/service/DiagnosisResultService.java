@@ -2,6 +2,7 @@ package com.taba.nimonaemo.diagnosis.service;
 
 import com.taba.nimonaemo.diagnosis.exception.DiagnosisResultNotFoundException;
 import com.taba.nimonaemo.diagnosis.model.dto.request.RequestMemberDTO;
+import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisCountDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisResultDTO;
 import com.taba.nimonaemo.diagnosis.model.entity.DiagnosisResult;
 import com.taba.nimonaemo.diagnosis.repository.DiagnosisResultRepository;
@@ -42,5 +43,12 @@ public class DiagnosisResultService {
         } else {
             throw new DiagnosisResultNotFoundException();
         }
+    }
+
+    public ResponseDiagnosisCountDTO findDiagnosisCount(String nickname) {
+        ResponseDiagnosisCountDTO responseDto = ResponseDiagnosisCountDTO.builder()
+                .total(diagnosisResultRepository.findAllWithNickname(nickname))
+                .build();
+        return responseDto;
     }
 }
