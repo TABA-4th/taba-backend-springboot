@@ -1,6 +1,7 @@
 package com.taba.nimonaemo.diagnosis.service;
 
 import com.taba.nimonaemo.diagnosis.exception.DiagnosisResultNotFoundException;
+import com.taba.nimonaemo.diagnosis.model.dto.request.RequestDeleteDiagnosisInfoDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.request.RequestMemberDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisCountDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisResultDTO;
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +48,22 @@ public class DiagnosisResultService {
         }
     }
 
+    public void deleteDiagnosisResult(RequestDeleteDiagnosisInfoDTO dto) {
+        Member member = memberRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundException::new);
+        diagnosisResultRepository.deleteByDate(member.getId(), changeLocalDateTimeFormat(dto.getDate()));
+    }
+
     public ResponseDiagnosisCountDTO findDiagnosisCount(String nickname) {
         ResponseDiagnosisCountDTO responseDto = ResponseDiagnosisCountDTO.builder()
                 .total(diagnosisResultRepository.findAllWithNickname(nickname))
                 .build();
         return responseDto;
+    }
+
+    private LocalDateTime changeLocalDateTimeFormat(String targetDate) {
+        LocalDateTime formatLocalDateTimeNow = LocalDateTime.parse(targetDate, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        System.out.println("String to LocalDatetime : " + formatLocalDateTimeNow);
+        return formatLocalDateTimeNow;
     }
 }
