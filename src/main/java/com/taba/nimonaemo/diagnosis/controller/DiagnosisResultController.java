@@ -34,14 +34,14 @@ public class DiagnosisResultController {
     }
 
     /**
+     * TODO: MemberAuth와 토큰 적용해서 보안 문제 해결하기
+     */
+    /**
      * 멤버 별 특정 두피 진단 결과 삭제
      *
      * @param dto           멤버 정보와 삭제하고자 하는 정확한 날짜
      * <p>현재 캘린더에서 두피 진단 결과 기록의 제목이 측정한 날짜이므로</p>
      * <p>제목(날짜)을 request body에 담아서 보내주면 됩니다.</p>
-     */
-    /**
-     * TODO: MemberAuth와 토큰 적용해서 보안 문제 해결하기
      */
     @DeleteMapping("/result")
     public void deleteResult(@Valid @RequestBody RequestDeleteDiagnosisInfoDTO dto) {
