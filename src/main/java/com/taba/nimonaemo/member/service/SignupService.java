@@ -9,6 +9,8 @@ import com.taba.nimonaemo.member.model.dto.request.RequestSignupDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseSignupTokenDto;
 import com.taba.nimonaemo.member.model.entity.Member;
 import com.taba.nimonaemo.member.repository.MemberRepository;
+import com.taba.nimonaemo.record.model.entity.HairStatus;
+import com.taba.nimonaemo.record.repository.HairStatusRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +27,8 @@ public class SignupService {
     private final SMSVerificationService smsVerificationService;
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
+    private final HairStatusRepository hairStatusRepository;
+
     //TODO NicknameFilter 필요
 
     @Transactional
@@ -47,6 +51,11 @@ public class SignupService {
                 .status(MemberStatus.ACTIVE)
                 .build();
         memberRepository.save(member);
+
+        HairStatus hairStatus = HairStatus.builder()
+                .member(member)
+                .build();
+        hairStatusRepository.save(hairStatus);
 
         deleteSignupAuths(signupToken);
     }
