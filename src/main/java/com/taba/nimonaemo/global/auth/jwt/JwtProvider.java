@@ -105,8 +105,8 @@ public class JwtProvider implements AuthenticationTokenProvider {
         LocalDateTime validity = now.plus(accessExpiration);
 
         Map<String, Object> payloads = new HashMap<>();
-        payloads.put("memberId", string);
-        payloads.put("memberRole", memberRole.name());
+        payloads.put("userId", string);
+        payloads.put("userRole", memberRole.getName());
 
         return Jwts.builder()
                 .setSubject("MemberInfo")
@@ -131,7 +131,7 @@ public class JwtProvider implements AuthenticationTokenProvider {
     private Jws<Claims> validateAccessToken(String accessToken) {
         try {
             return Jwts.parser()
-                    .setSigningKey(secretKey)
+                    .setSigningKey(secretKey.getBytes())
                     .parseClaimsJws(accessToken);
         } catch (IllegalArgumentException e) {
             throw new ExpiredTokenException();
