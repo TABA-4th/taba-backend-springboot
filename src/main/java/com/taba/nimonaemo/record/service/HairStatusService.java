@@ -27,7 +27,7 @@ public class HairStatusService {
                                     LocalDate date,
                                     boolean permFlag,
                                     boolean dyeFlag) {
-        HairStatus hairStatus = hairStatusRepository.findById(memberId).orElseThrow(HairStatusNotFoundException::new);
+        HairStatus hairStatus = hairStatusRepository.findByMemberId(memberId).orElseThrow(HairStatusNotFoundException::new);
 
         if (permFlag && dyeFlag) {
             hairStatus.changeStartPermDate(date);
@@ -45,7 +45,7 @@ public class HairStatusService {
     }
 
     public ResponseHairStatusDTO getMemberHairStatus(Long memberId) {
-        HairStatus hairStatus = hairStatusRepository.findById(memberId).orElseThrow(HairStatusNotFoundException::new);
+        HairStatus hairStatus = hairStatusRepository.findByMemberId(memberId).orElseThrow(HairStatusNotFoundException::new);
 
         ResponseHairStatusDTO responseDto = ResponseHairStatusDTO.builder()
                 .hairStatus(hairStatus)
@@ -55,14 +55,14 @@ public class HairStatusService {
 
     @Transactional
     public void deleteMemberPermStatus(Long memberId) {
-        HairStatus hairStatus = hairStatusRepository.findById(memberId).orElseThrow(HairStatusNotFoundException::new);
+        HairStatus hairStatus = hairStatusRepository.findByMemberId(memberId).orElseThrow(HairStatusNotFoundException::new);
 
         hairStatus.changeStartPermDate(null);
     }
 
     @Transactional
     public void deleteMemberDyeStatus(Long memberId) {
-        HairStatus hairStatus = hairStatusRepository.findById(memberId).orElseThrow(HairStatusNotFoundException::new);
+        HairStatus hairStatus = hairStatusRepository.findByMemberId(memberId).orElseThrow(HairStatusNotFoundException::new);
 
         hairStatus.changeStartDyeDate(null);
     }
