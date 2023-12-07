@@ -4,6 +4,7 @@ import com.taba.nimonaemo.diagnosis.model.entity.DiagnosisResult;
 import com.taba.nimonaemo.global.auth.role.MemberRole;
 import com.taba.nimonaemo.global.base.BaseEntity;
 import com.taba.nimonaemo.member.model.MemberStatus;
+import com.taba.nimonaemo.record.model.entity.Diary;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,6 +47,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<DiagnosisResult> diagnosisResults = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<Diary> diarys = new ArrayList<>();
 
     @Builder
     private Member(@NotNull String name,
