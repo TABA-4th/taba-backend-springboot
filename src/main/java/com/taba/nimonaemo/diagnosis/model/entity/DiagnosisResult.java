@@ -36,11 +36,11 @@ public class DiagnosisResult {
 
     @NotNull
     @Column(name = "fine_dead_skin_cells", columnDefinition = "NUMBER(2)")
-    private int findDeadSkinCells;
+    private double findDeadSkinCells;
 
     @NotNull
     @Column(name = "excess_sebum", columnDefinition = "NUMBER(2)")
-    private int excessSebum;
+    private double excessSebum;
 
     @NotNull
     @Column(name = "erythema_between_hair_follicles", columnDefinition = "NUMBER(2)")
