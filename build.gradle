@@ -50,6 +50,10 @@ dependencies {
 	// json
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+	// Excel
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+
 	// swagger
 	annotationProcessor 'com.github.therapi:therapi-runtime-javadoc-scribe:0.15.0'
 	implementation 'com.github.therapi:therapi-runtime-javadoc:0.15.0'

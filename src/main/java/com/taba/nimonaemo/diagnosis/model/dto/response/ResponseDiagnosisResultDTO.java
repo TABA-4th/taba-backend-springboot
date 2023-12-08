@@ -9,18 +9,27 @@ import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
-public class ResponseDiagnosisResultDTO {
+public class ResponseDetailDiagnosisResultDTO {
     private final LocalDateTime diagnosisDate;
     private final String imageUrl;
-    private final int findDeadSkinCells;
-    private final int excessSebum;
+    private final double findDeadSkinCells;
+    private final double excessSebum;
     private final int erythemaBetweenHairFollicles;
     private final int dandruff;
     private final int hairLoss;
     private final int erythemaPustules;
+    private final String gender;
+    private final String old;
+    private final double avgFindDeadSkinCells;
+    private final double avgExcessSebum;
+    private final double avgErythemaBetweenHairFollicles;
+    private final double avgDandruff;
+    private final double avgHairLoss;
+    private final double avgErythemaPustules;
 
     @Builder
-    private ResponseDiagnosisResultDTO(DiagnosisResult diagnosisResult) {
+    private ResponseDetailDiagnosisResultDTO(DiagnosisResult diagnosisResult,
+                                             ResponseAverageByAgeDTO dto) {
         this.diagnosisDate = diagnosisResult.getDiagnosisDate();
         this.imageUrl = diagnosisResult.getImageUrl();
         this.findDeadSkinCells = diagnosisResult.getFindDeadSkinCells();
@@ -29,5 +38,13 @@ public class ResponseDiagnosisResultDTO {
         this.dandruff = diagnosisResult.getDandruff();
         this.hairLoss = diagnosisResult.getHairLoss();
         this.erythemaPustules = diagnosisResult.getErythemaPustules();
+        this.gender = dto.getGender();
+        this.old = dto.getOld();
+        this.avgFindDeadSkinCells = dto.getAvgFindDeadSkinCells();
+        this.avgExcessSebum = dto.getAvgExcessSebum();
+        this.avgErythemaBetweenHairFollicles = dto.getAvgErythemaBetweenHairFollicles();
+        this.avgDandruff = dto.getAvgDandruff();
+        this.avgHairLoss = dto.getAvgHairLoss();
+        this.avgErythemaPustules = dto.getAvgErythemaPustules();
     }
 }

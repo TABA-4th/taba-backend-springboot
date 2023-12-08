@@ -39,3 +39,6 @@ api.pdf
 
 ### VS Code ###
 .vscode/
+
+### average by age group xlsx ###
+/src/main/resources/static/averageByAge.xlsx
