@@ -8,12 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface DiagnosisResultRepository extends JpaRepository<DiagnosisResult, Long> {
     @Query("select d from DiagnosisResult d " +
             "where d.member.id = :memberId and " +
             "(d.diagnosisDate between TO_DATE(:curDate, 'YYYY/MM') and TO_DATE(:nextDate, 'YYYY/MM'))")
     List<DiagnosisResult> findByDate(Long memberId, String curDate, String nextDate);
+
+    @Query("select d from DiagnosisResult d " +
+            "where d.member.id = :memberId and " +
+            "d.diagnosisDate = :date ")
+    Optional<DiagnosisResult> findByDateForDetail(Long memberId, LocalDateTime date);
 
     @Transactional
     @Modifying
