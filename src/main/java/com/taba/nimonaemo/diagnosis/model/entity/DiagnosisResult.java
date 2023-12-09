@@ -35,11 +35,11 @@ public class DiagnosisResult {
     private String imageUrl;
 
     @NotNull
-    @Column(name = "fine_dead_skin_cells", columnDefinition = "NUMBER(2)")
+    @Column(name = "fine_dead_skin_cells", columnDefinition = "NUMBER(2, 1)")
     private double findDeadSkinCells;
 
     @NotNull
-    @Column(name = "excess_sebum", columnDefinition = "NUMBER(2)")
+    @Column(name = "excess_sebum", columnDefinition = "NUMBER(2, 1)")
     private double excessSebum;
 
     @NotNull
@@ -57,6 +57,10 @@ public class DiagnosisResult {
     @NotNull
     @Column(name = "erythema_pustules", columnDefinition = "NUMBER(2)")
     private int erythemaPustules;
+
+    @NotNull
+    @Column(name = "top_percentage")
+    private String topPercentage;
 
 //    @Builder
 //    private DiagnosisResult(@NotNull LocalDateTime diagnosisDate,

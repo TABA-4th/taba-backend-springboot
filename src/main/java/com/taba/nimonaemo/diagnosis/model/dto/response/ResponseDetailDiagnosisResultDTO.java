@@ -26,6 +26,7 @@ public class ResponseDetailDiagnosisResultDTO {
     private final double avgDandruff;
     private final double avgHairLoss;
     private final double avgErythemaPustules;
+    private final String topPercentage;
 
     @Builder
     private ResponseDetailDiagnosisResultDTO(DiagnosisResult diagnosisResult,
@@ -38,6 +39,7 @@ public class ResponseDetailDiagnosisResultDTO {
         this.dandruff = diagnosisResult.getDandruff();
         this.hairLoss = diagnosisResult.getHairLoss();
         this.erythemaPustules = diagnosisResult.getErythemaPustules();
+        this.topPercentage = diagnosisResult.getTopPercentage();
         this.gender = responseAverageByAgeDTO.getGender();
         this.old = responseAverageByAgeDTO.getOld();
         this.avgFindDeadSkinCells = responseAverageByAgeDTO.getAvgFindDeadSkinCells();
