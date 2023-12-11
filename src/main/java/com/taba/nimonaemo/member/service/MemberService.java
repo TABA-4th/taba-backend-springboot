@@ -7,6 +7,7 @@ import com.taba.nimonaemo.member.exception.WrongPasswordException;
 import com.taba.nimonaemo.member.model.dto.AutoLoginDto;
 import com.taba.nimonaemo.member.model.dto.request.RequestLoginDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseLoginDto;
+import com.taba.nimonaemo.member.model.dto.response.ResponseRefreshTokenDto;
 import com.taba.nimonaemo.member.model.entity.Member;
 import com.taba.nimonaemo.member.repository.AutoLoginRepository;
 import com.taba.nimonaemo.member.repository.MemberRepository;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 
 @Service
@@ -46,11 +48,10 @@ public class MemberService {
         }
     }
 
-//    public ResponseReissueDto reissue(String refreshToken) {
-//        Instant now = Instant.now();
-//        AutoLoginDto autoLoginObj = autoLoginRepository.getAutoLoginPayload(refreshToken, AUTO_LOGIN_NAME, AutoLoginDto.class, now)
-//                .orElseThrow(AutoLoginUserNotFoundException::new);
-//        AuthenticationToken token = jwtProvider.reissue(autoLoginObj.getUserId(), autoLoginObj.getUserRole());
-//        return new ResponseReissueDto(token.getAccessToken());
-//    }
+    public ResponseRefreshTokenDto refreshToken(HttpServletRequest request, String refreshToken) {
+        String accessToken = jwtProvider.getAccessTokenFromHeader(request);
+        AuthenticationToken token = jwtProvider.reissue(accessToken, refreshToken);
+        return new ResponseRefreshTokenDto(token);
+    }
+
 }

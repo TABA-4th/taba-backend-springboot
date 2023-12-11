@@ -74,13 +74,14 @@ public class JwtProvider implements AuthenticationTokenProvider {
                 .build();
     }
 
-    public AuthenticationToken reissue(String userId, MemberRole memberRole) {
-//        String validateRefreshToken = validateRefreshToken(refreshToken);
-        String accessToken = createAccessToken(userId, memberRole);
+    public AuthenticationToken reissue(String accessToken, String refreshToken) {
+        //만료되면 새로운 refreshToken 반환함.
+        String validateRefreshToken = validateRefreshToken(refreshToken);
+        accessToken = refreshAccessToken(accessToken);
 
         return JwtAuthenticationToken.builder()
                 .accessToken(accessToken)
-                .refreshToken("")
+                .refreshToken(validateRefreshToken)
                 .build();
     }
 
