@@ -72,7 +72,7 @@ public class SignupService {
         }
     }
 
-    private void checkAlreadyNickname(String nickname) {
+    public void checkAlreadyNickname(String nickname) {
         Optional<Member> alreadyMember = memberRepository.findByNickname(nickname);
         if (alreadyMember.isPresent()) {
             throw new AlreadyNicknameException();

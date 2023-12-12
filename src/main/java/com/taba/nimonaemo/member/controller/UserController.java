@@ -8,6 +8,8 @@ import com.taba.nimonaemo.member.model.dto.response.ResponseRefreshTokenDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseSignupTokenDto;
 import com.taba.nimonaemo.member.service.MemberService;
 import com.taba.nimonaemo.member.service.SignupService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +72,19 @@ public class UserController {
     public ResponseRefreshTokenDto refreshToken(HttpServletRequest request, 
                                                 @Valid @RequestParam String refreshToken) {
         return memberService.refreshToken(request, refreshToken);
+    }
+
+    /**
+     * 닉네임 중복 확인
+     * @param nickname      닉네임
+     */
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "중복되는 닉네임이 없습니다."),
+            @ApiResponse(responseCode = "500", description = "already.nickname")
+    })
+    @PostMapping("/signup/verify/{nickname}")
+    public void verifyNickname(@PathVariable("nickname") String nickname) {
+        signupService.checkAlreadyNickname(nickname);
     }
 
 //    /**
