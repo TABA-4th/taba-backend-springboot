@@ -1,5 +1,7 @@
 package com.taba.nimonaemo.product.controller;
 
+import com.taba.nimonaemo.global.auth.jwt.AppAuthentication;
+import com.taba.nimonaemo.global.auth.role.AdminAuth;
 import com.taba.nimonaemo.product.exception.ProductNotFoundException;
 import com.taba.nimonaemo.product.model.dto.request.RequestInputCareDeviceDto;
 import com.taba.nimonaemo.product.model.dto.request.RequestProductDto;
@@ -50,7 +52,8 @@ public class ScalpCareProductController {
      * @param dto           요청 body
      */
     @PostMapping("/input")
-    public void inputCareDevice(@Valid @RequestBody RequestInputCareDeviceDto dto) {
+    @AdminAuth
+    public void inputCareDevice(AppAuthentication auth, @Valid @RequestBody RequestInputCareDeviceDto dto) {
         scalpCareProductService.addCareDevice(dto);
     }
 }

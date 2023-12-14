@@ -5,6 +5,8 @@ public class MemberAuthNames {
 
     public static final String ROLE_MEMBER = "ROLE_MEMBER";
 
+    public static final String ROLE_GUEST = "ROLE_GUEST";
+
     public static String combine(String... names) {
         return String.join(",", names);
     }
