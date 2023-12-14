@@ -51,4 +51,7 @@ public class Survey {
 
     @NotNull
     private char recommendOrNot;
+
+    @NotNull
+    private char reuseImage;
 }
