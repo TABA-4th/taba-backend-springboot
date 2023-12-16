@@ -21,4 +21,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> , JpaSpeci
 
     @Query("select m from Member m where m.status = 'ACTIVE' and m.name = :name")
     Optional<Member> findByName(String name);
+
+    @Query("select m from Member m where m.status = 'INACTIVE' and m.phone = :phone")
+    Optional<Member> findByInactiveByPhone(String phone);
 }

@@ -101,12 +101,13 @@ public class UserController {
         return memberService.getMemberInfo(auth.getUserId());
     }
 
-//    /**
-//     * 회원탈퇴
-//     * <p>회원은 바로 삭제되지 않고, 일정 기간 뒤에 삭제됩니다. 삭제시에도 개인 정보만 삭제됩니다.</p>
-//     */
-//    @DeleteMapping
-//    public void withdraw(AppAuthentication auth) {
-//        memberWithdrawService.withdraw(auth.getUserId());
-//    }
+    /**
+     * 회원탈퇴
+     * <p>회원은 바로 삭제되지 않고(비활성화로 전환), 일정 기간 뒤에 삭제됩니다.</p>
+     */
+    @DeleteMapping
+    @MemberAuth
+    public void withdraw(AppAuthentication auth) {
+        memberWithdrawService.withdraw(auth.getUserId());
+    }
 }
