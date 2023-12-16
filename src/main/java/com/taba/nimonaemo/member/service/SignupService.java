@@ -9,6 +9,7 @@ import com.taba.nimonaemo.member.model.dto.request.RequestSignupDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseSignupTokenDto;
 import com.taba.nimonaemo.member.model.entity.Member;
 import com.taba.nimonaemo.member.repository.MemberRepository;
+import com.taba.nimonaemo.record.exception.HairStatusNotFoundException;
 import com.taba.nimonaemo.record.model.entity.HairStatus;
 import com.taba.nimonaemo.record.repository.HairStatusRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,23 +40,34 @@ public class SignupService {
         String phone = smsVerificationService.getPhoneNumber(signupToken);
         String encryptedPassword = passwordEncoder.encode(dto.getPassword());
 
-//        Optional<User> inactiveUser = userRepository.findByInactiveByNickname(dto.getNickname());
-        //TODO 회원탈퇴 로직이 필요할 시 구현
+        Optional<Member> inactiveUser = memberRepository.findByInactiveByPhone(dto.getPhone());
 
-        Member member = Member.builder()
-                .name(dto.getName())
-                .nickname(dto.getNickname())
-                .password(encryptedPassword)
-                .phone(phone)
-                .memberRole(MemberRole.MEMBER)
-                .status(MemberStatus.ACTIVE)
-                .build();
-        memberRepository.save(member);
+        if (inactiveUser.isPresent()) {
+            Member member = inactiveUser.get();
+            member.changeStatus(MemberStatus.ACTIVE);
+            member.changeName(dto.getName());
+            member.changeNickname(dto.getNickname());
 
-        HairStatus hairStatus = HairStatus.builder()
-                .member(member)
-                .build();
-        hairStatusRepository.save(hairStatus);
+            HairStatus hairStatus = hairStatusRepository.findByMemberId(member.getId()).orElseThrow(HairStatusNotFoundException::new);
+            hairStatus.changeStartPermDate(null);
+            hairStatus.changeStartDyeDate(null);
+        }
+        else {
+            Member member = Member.builder()
+                    .name(dto.getName())
+                    .nickname(dto.getNickname())
+                    .password(encryptedPassword)
+                    .phone(phone)
+                    .memberRole(MemberRole.MEMBER)
+                    .status(MemberStatus.ACTIVE)
+                    .build();
+            memberRepository.save(member);
+
+            HairStatus hairStatus = HairStatus.builder()
+                    .member(member)
+                    .build();
+            hairStatusRepository.save(hairStatus);
+        }
 
         deleteSignupAuths(signupToken);
     }
