@@ -7,6 +7,7 @@ import com.taba.nimonaemo.member.exception.WrongPasswordException;
 import com.taba.nimonaemo.member.model.dto.AutoLoginDto;
 import com.taba.nimonaemo.member.model.dto.request.RequestLoginDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseLoginDto;
+import com.taba.nimonaemo.member.model.dto.response.ResponseMemberInfoDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseRefreshTokenDto;
 import com.taba.nimonaemo.member.model.entity.Member;
 import com.taba.nimonaemo.member.repository.AutoLoginRepository;
@@ -54,4 +55,8 @@ public class MemberService {
         return new ResponseRefreshTokenDto(token);
     }
 
+    public ResponseMemberInfoDto getMemberInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(UserNotFoundException::new);
+        return new ResponseMemberInfoDto(member.getName(), member.getNickName(), member.getPhone(), member.getMemberRole().isAdmin());
+    }
 }

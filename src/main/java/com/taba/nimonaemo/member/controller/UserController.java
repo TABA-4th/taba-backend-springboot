@@ -1,12 +1,15 @@
 package com.taba.nimonaemo.member.controller;
 
+import com.taba.nimonaemo.global.auth.jwt.AppAuthentication;
 import com.taba.nimonaemo.global.auth.role.MemberAuth;
 import com.taba.nimonaemo.member.model.dto.request.RequestLoginDto;
 import com.taba.nimonaemo.member.model.dto.request.RequestSignupDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseLoginDto;
+import com.taba.nimonaemo.member.model.dto.response.ResponseMemberInfoDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseRefreshTokenDto;
 import com.taba.nimonaemo.member.model.dto.response.ResponseSignupTokenDto;
 import com.taba.nimonaemo.member.service.MemberService;
+import com.taba.nimonaemo.member.service.MemberWithdrawService;
 import com.taba.nimonaemo.member.service.SignupService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -26,7 +29,7 @@ public class UserController {
 
     private final MemberService memberService;
     private final SignupService signupService;
-//    private final MemberWithdrawService memberWithdrawService;
+    private final MemberWithdrawService memberWithdrawService;
 
     /**
      * 회원가입 토큰 생성
@@ -85,6 +88,17 @@ public class UserController {
     @PostMapping("/signup/verify/{nickname}")
     public void verifyNickname(@PathVariable("nickname") String nickname) {
         signupService.checkAlreadyNickname(nickname);
+    }
+
+    /**
+     * 내 정보 조회
+     *
+     *
+     */
+    @GetMapping
+    @MemberAuth
+    public ResponseMemberInfoDto getMemberInfo(AppAuthentication auth) {
+        return memberService.getMemberInfo(auth.getUserId());
     }
 
 //    /**

@@ -10,6 +10,9 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> , JpaSpecificationExecutor<Member> {
 
+    @Query("select m from Member m where m.status = 'ACTIVE' and m.id = :id")
+    Optional<Member> findById(@Param("id") Long id);
+
     @Query("select m from Member m where m.status = 'ACTIVE' and m.phone = :phone")
     Optional<Member> findByPhone(@Param("phone") String phone);
 
