@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface SurveyRepository extends JpaRepository<Survey, Long> {
     @Query("select s from Survey s " +
             "where s.member.id = :memberId and " +
+            "s.member.status = 'ACTIVE' and " +
             "s.surveyDate = :targetDate ")
     Optional<Survey> findByDate(Long memberId, LocalDateTime targetDate);
 }
