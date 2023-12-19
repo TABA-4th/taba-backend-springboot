@@ -50,5 +50,5 @@
 </br></br>
 
 ## API
-<img src="https://github.com/TABA-4th/taba-backend-springboot/assets/120318020/0c275daa-9b1c-415a-a618-0cf115d18b2a" width="600" height="600"></img>
+<img src="https://github.com/TABA-4th/taba-backend-springboot/assets/120318020/9be09f0f-bc6a-4b67-b5c8-bc28d39975ee" width="600" height="600"></img>
 </br></br>
