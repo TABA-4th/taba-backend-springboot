@@ -23,17 +23,14 @@ public interface DiagnosisResultRepository extends JpaRepository<DiagnosisResult
             "d.diagnosisDate = :date ")
     Optional<DiagnosisResult> findByDateForDetail(Long memberId, LocalDateTime date);
 
-    @Transactional
     @Modifying
-    @Query("delete from DiagnosisResult d " +
-            "where d.member.id = :memberId and " +
-                    "d.member.status = 'ACTIVE' and " +
-                    "d.diagnosisDate LIKE CONCAT(:targetDate, '%')")
+    @Query(value = "delete from diagnosis_result " +
+            "where member_id = (select member_id from member where member_id = :memberId and status = 'ACTIVE') and " +
+            "diagnosis_date LIKE CONCAT(:targetDate, '%')", nativeQuery = true)
     void deleteByDate(Long memberId, LocalDateTime targetDate);
 
     @Query("select COUNT(*) from DiagnosisResult d " +
-            "where d.member.id = (select m.id from Member m " +
-                                "where m.nickname = :nickname) and " +
-                                "d.member.status = 'ACTIVE'")
-    Long findAllWithNickname(String nickname);
+            "where d.member.id = :memberId and " +
+            "d.member.status = 'ACTIVE'")
+    Long findAllWithId(Long memberId);
 }
