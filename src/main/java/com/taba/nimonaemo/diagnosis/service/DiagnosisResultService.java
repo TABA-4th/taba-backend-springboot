@@ -2,9 +2,6 @@ package com.taba.nimonaemo.diagnosis.service;
 
 import com.taba.nimonaemo.diagnosis.exception.DiagnosisResultNotFoundException;
 import com.taba.nimonaemo.diagnosis.exception.SurveyNotFoundException;
-import com.taba.nimonaemo.diagnosis.model.dto.request.RequestDeleteDiagnosisInfoDTO;
-import com.taba.nimonaemo.diagnosis.model.dto.request.RequestDetailMemberDTO;
-import com.taba.nimonaemo.diagnosis.model.dto.request.RequestMemberDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseAverageByAgeDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDetailDiagnosisResultDTO;
 import com.taba.nimonaemo.diagnosis.model.dto.response.ResponseDiagnosisCountDTO;
@@ -34,6 +31,7 @@ import java.util.Map;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.apache.poi.ss.util.SheetUtil.getCell;
 
@@ -71,11 +69,11 @@ public class DiagnosisResultService {
 
     private final SurveyRepository surveyRepository;
 
-    public List<ResponseDiagnosisResultDTO> findDiagnosisResult(RequestMemberDTO dto) {
-        String nextMonth = NextMonthGenerator.generateNextMonth(dto.getDate());
-        Member member = memberRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundException::new);
+    public List<ResponseDiagnosisResultDTO> findDiagnosisResult(Long memberId, String date) {
+        String nextMonth = NextMonthGenerator.generateNextMonth(date);
+        Member member = memberRepository.findById(memberId).orElseThrow(UserNotFoundException::new);
 
-        List<DiagnosisResult> diagnosisResultList = diagnosisResultRepository.findByDate(member.getId(), dto.getDate(), nextMonth);
+        List<DiagnosisResult> diagnosisResultList = diagnosisResultRepository.findByDate(member.getId(), date, nextMonth);
         List<ResponseDiagnosisResultDTO> result = new ArrayList<>();
 
         if (!diagnosisResultList.isEmpty()) {
@@ -91,11 +89,10 @@ public class DiagnosisResultService {
         }
     }
 
-    public ResponseDetailDiagnosisResultDTO findDetailDiagnosisResult(RequestDetailMemberDTO dto) throws FileNotFoundException, IOException, InvalidFormatException {
-        Member member = memberRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundException::new);
+    public ResponseDetailDiagnosisResultDTO findDetailDiagnosisResult(Long memberId, String date) throws FileNotFoundException, IOException, InvalidFormatException {
 
-        DiagnosisResult diagnosisResult = diagnosisResultRepository.findByDateForDetail(member.getId(), changeLocalDateTimeFormat(dto.getDate())).orElseThrow(DiagnosisResultNotFoundException::new);
-        Survey survey = surveyRepository.findByDate(member.getId(), changeLocalDateTimeFormat(dto.getDate())).orElseThrow(SurveyNotFoundException::new);
+        DiagnosisResult diagnosisResult = diagnosisResultRepository.findByDateForDetail(memberId, changeLocalDateTimeFormat(date)).orElseThrow(DiagnosisResultNotFoundException::new);
+        Survey survey = surveyRepository.findByDate(memberId, changeLocalDateTimeFormat(date)).orElseThrow(SurveyNotFoundException::new);
 
         ResponseDetailDiagnosisResultDTO responseDto = ResponseDetailDiagnosisResultDTO.builder()
                 .diagnosisResult(diagnosisResult)
@@ -105,14 +102,16 @@ public class DiagnosisResultService {
         return responseDto;
     }
 
-    public void deleteDiagnosisResult(RequestDeleteDiagnosisInfoDTO dto) {
-        Member member = memberRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundException::new);
-        diagnosisResultRepository.deleteByDate(member.getId(), changeLocalDateTimeFormat(dto.getDate()));
+    @Transactional
+    public void deleteDiagnosisResult(Long memberId, String date) {
+        diagnosisResultRepository.deleteByDate(memberId, changeLocalDateTimeFormat(date));
     }
 
-    public ResponseDiagnosisCountDTO findDiagnosisCount(String nickname) {
+    public ResponseDiagnosisCountDTO findDiagnosisCount(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(UserNotFoundException::new);
+
         ResponseDiagnosisCountDTO responseDto = ResponseDiagnosisCountDTO.builder()
-                .total(diagnosisResultRepository.findAllWithNickname(nickname))
+                .total(diagnosisResultRepository.findAllWithId(memberId))
                 .build();
         return responseDto;
     }
