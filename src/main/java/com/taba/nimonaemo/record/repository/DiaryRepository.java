@@ -17,11 +17,9 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
             "(d.diaryDate between TO_DATE(:curDate, 'YYYY/MM') and TO_DATE(:nextDate, 'YYYY/MM'))")
     List<Diary> findByDate(Long memberId, String curDate, String nextDate);
 
-    @Transactional
     @Modifying
-    @Query("delete from Diary d " +
-            "where d.member.id = :memberId and " +
-            "d.member.status = 'ACTIVE' and " +
-            "d.id = :diaryId ")
+    @Query(value = "delete from diary " +
+            "where member_id = (select member_id from member where member_id = :memberId and status = 'ACTIVE') and " +
+            "diary_id = :diaryId ", nativeQuery = true)
     void deleteByDate(Long memberId, Long diaryId);
 }
